@@ -17,7 +17,10 @@
 	<br>
 	RegAdd - папка со скриптом изменения параметров в реестре<br>
 	<br>
-	UpdatePreAutoRunAll - папка со скриптом установи PreAutoRun.au3 на удаленных ПК<br>
+	UpdatePreAutoRunAll - папка со скриптом установи запуска PreAutoRun.au3 на удаленных ПК<br>
+	Install - папка содержимое которой копирует UpdatePreAutoRunAll.au3 на диск "C" удаленного ПК<br>
+	Install/.autoit - интерпретатор языка AutoIt с библиотеками<br>
+	Install/ProgramData/Microsoft/Windows/Start Menu/Programs/Sta.. - ссылка на запуск скрипта PreAutoRun.au3 с сервера<br>
 	<br>
 	rts-tender.ru - папка со скриптом мониторинга сайта rts-tender.ru и автоматическое открытие IE при находжении нового тендора (сайт изменен, требуется исправление скрипта)<br>
 	<br>
