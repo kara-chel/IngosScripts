@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3) ; The default tray menu items will not be shown and items are not checked when selected. These are options 1 and 2 for TrayMenuMode.
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
@@ -24,14 +24,14 @@ Global $aAdmin
 
 
 Func MainExit()
-	; Только указанные пользователи могут выйти.
+	; РўРѕР»СЊРєРѕ СѓРєР°Р·Р°РЅРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РјРѕРіСѓС‚ РІС‹Р№С‚Рё.
 	Local $iFind = _ArraySearch($aAdmin, StringUpper(@UserName))
 	if  $iFind >= 0 Then
 		FileClose($hLogFile)
 		Exit
 	Else
-		MsgBox($MB_SYSTEMMODAL, "Выход", "Вы не имеете прав на закрытие этой программы.")
-		_FileWriteLog($hLogFile, "MainExit(): Попытка закрыть программу.")
+		MsgBox($MB_SYSTEMMODAL, "Р’С‹С…РѕРґ", "Р’С‹ РЅРµ РёРјРµРµС‚Рµ РїСЂР°РІ РЅР° Р·Р°РєСЂС‹С‚РёРµ СЌС‚РѕР№ РїСЂРѕРіСЂР°РјРјС‹.")
+		_FileWriteLog($hLogFile, "MainExit(): РџРѕРїС‹С‚РєР° Р·Р°РєСЂС‹С‚СЊ РїСЂРѕРіСЂР°РјРјСѓ.")
 
 	EndIf
 EndFunc
@@ -39,49 +39,49 @@ EndFunc
 
 Func MainInit()
 
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	$tTimer = TimerInit()
 	$tSleep = 0
 	; /
 
 	$hLogFile = FileOpen($sLOGFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла.")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°.")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
 
 	$aAdmin = StringSplit(StringUpper(StringStripWS(IniRead($sINIFile, "General", "Admin", ''), 8)), ',')
 
 	;TrayMenu
-	TrayCreateItem("Переустановка АИС")
+	TrayCreateItem("РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° РђРРЎ")
 	TrayItemSetOnEvent(-1, "_Menu0")
 
-	TrayCreateItem("Переустановка БАИС")
+	TrayCreateItem("РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° Р‘РђРРЎ")
 	TrayItemSetOnEvent(-1, "_Menu1")
 
 	TrayCreateItem("")
 
-	TrayCreateItem("Починить копировать/вставить")
+	TrayCreateItem("РџРѕС‡РёРЅРёС‚СЊ РєРѕРїРёСЂРѕРІР°С‚СЊ/РІСЃС‚Р°РІРёС‚СЊ")
 	TrayItemSetOnEvent(-1, "_Menu2")
 
 	TrayCreateItem("")
 
-	TrayCreateItem("Диспетчер задач")
+	TrayCreateItem("Р”РёСЃРїРµС‚С‡РµСЂ Р·Р°РґР°С‡")
 	TrayItemSetOnEvent(-1, "_Menu3")
 
-	TrayCreateItem("Перезагрузка компьютера")
+	TrayCreateItem("РџРµСЂРµР·Р°РіСЂСѓР·РєР° РєРѕРјРїСЊСЋС‚РµСЂР°")
 	TrayItemSetOnEvent(-1, "_Menu3")
 
 	TrayCreateItem("")
-	Local $ExitItem = TrayCreateItem("Выйти")
+	Local $ExitItem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -36)
@@ -92,25 +92,25 @@ EndFunc
 
 Func _Menu0()
 	_FileWriteLog($hLogFile, "Click _Menu0")
-	Local $YesNo = MsgBox(1, "Переустановка АИС", "Вы уверены что хотите переустановить АИС?")
+	Local $YesNo = MsgBox(1, "РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° РђРРЎ", "Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ РїРµСЂРµСѓСЃС‚Р°РЅРѕРІРёС‚СЊ РђРРЎ?")
 	_FileWriteLog($hLogFile, "Click _Menu0: " & $YesNo)
 	if $YesNo = 1 Then
-		$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\Переустановка АИС.cmd", "", "", "",@SW_SHOW)
+		$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° РђРРЎ.cmd", "", "", "",@SW_SHOW)
 	EndIf
 EndFunc
 
 Func _Menu1()
 	_FileWriteLog($hLogFile, "Click _Menu1")
-	Local $YesNo = MsgBox(1, "Переустановка БАИС", "Вы уверены что хотите переустановить БАИС? После переустановки будет произведено обновление БАИС. Время обновления достигает до часа.")
+	Local $YesNo = MsgBox(1, "РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° Р‘РђРРЎ", "Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ РїРµСЂРµСѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р‘РђРРЎ? РџРѕСЃР»Рµ РїРµСЂРµСѓСЃС‚Р°РЅРѕРІРєРё Р±СѓРґРµС‚ РїСЂРѕРёР·РІРµРґРµРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ Р‘РђРРЎ. Р’СЂРµРјСЏ РѕР±РЅРѕРІР»РµРЅРёСЏ РґРѕСЃС‚РёРіР°РµС‚ РґРѕ С‡Р°СЃР°.")
 	_FileWriteLog($hLogFile, "Click _Menu1: " & $YesNo)
 	if $YesNo = 1 Then
-		$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\Переустановка БАИС.cmd", "", "", "",@SW_SHOW)
+		$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\РџРµСЂРµСѓСЃС‚Р°РЅРѕРІРєР° Р‘РђРРЎ.cmd", "", "", "",@SW_SHOW)
 	EndIf
 EndFunc
 
 Func _Menu2()
 	_FileWriteLog($hLogFile, "Click _Menu2")
-	$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\Починить копипаст.cmd", "", "", "",@SW_SHOW)
+	$iReturn = ShellExecuteWait(@ScriptDir & "\cmd\РџРѕС‡РёРЅРёС‚СЊ РєРѕРїРёРїР°СЃС‚.cmd", "", "", "",@SW_SHOW)
 EndFunc
 
 Func _Menu3()
@@ -120,7 +120,7 @@ EndFunc
 
 Func _Menu4()
 	_FileWriteLog($hLogFile, "Click _Menu4")
-	Local $YesNo = MsgBox(1, "Перезагрузить", "Вы уверены что хотите перезагрузить компьютер?")
+	Local $YesNo = MsgBox(1, "РџРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊ", "Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ РїРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊ РєРѕРјРїСЊСЋС‚РµСЂ?")
 	_FileWriteLog($hLogFile, "Click _Menu4: " & $YesNo)
 	if $YesNo = 1 Then
 		$iReturn = ShellExecuteWait("C:\Windows\System32\shutdown.exe", "/r /f", "", "",@SW_HIDE)
