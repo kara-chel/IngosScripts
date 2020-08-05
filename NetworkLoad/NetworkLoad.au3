@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3) ; The default tray menu items will not be shown and items are not checked when selected. These are options 1 and 2 for TrayMenuMode.
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
@@ -16,7 +16,7 @@ Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
 Const $cVersion = "NetworkLoadIngos20160712"
 Const $cProduct = "NetworkLoad"
 Const $DEBUBMODE = False
-Const $cLimit = 3600; Показать $cLimit последних записей
+Const $cLimit = 3600; РџРѕРєР°Р·Р°С‚СЊ $cLimit РїРѕСЃР»РµРґРЅРёС… Р·Р°РїРёСЃРµР№
 Const $cStep = 1000
 
 Global $sServer = "172.16.249.245"
@@ -30,26 +30,26 @@ Global $oIE
 Global $retarr, $dbn
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	_CloseDB(); Закрытие ДБ
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	_CloseDB(); Р—Р°РєСЂС‹С‚РёРµ Р”Р‘
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
 Func MainInit()
 
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	$tTimer = TimerInit()
 	$tSleep = 0
 	; /
 
-	; Проверить наличии папок...
+	; РџСЂРѕРІРµСЂРёС‚СЊ РЅР°Р»РёС‡РёРё РїР°РїРѕРє...
 	Local $folder
 	$folder = @ScriptDir & "\log"
 	If Not FileExists($folder) Then DirCreate($folder)
@@ -59,23 +59,23 @@ Func MainInit()
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла.")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°.")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
 	$sServer = IniRead($sINIFile, @UserName, "Server", "")
 	If $sServer = "" Then $sServer = IniRead($sINIFile, "General", "Server", "8.8.8.8")
 
-	_OpenDB(); Открытие/создание ДБ
+	_OpenDB(); РћС‚РєСЂС‹С‚РёРµ/СЃРѕР·РґР°РЅРёРµ Р”Р‘
 
 	;TrayMenu
-	Local $ShowPingHour_Table = TrayCreateItem("Показать данные за песледний час")
+	Local $ShowPingHour_Table = TrayCreateItem("РџРѕРєР°Р·Р°С‚СЊ РґР°РЅРЅС‹Рµ Р·Р° РїРµСЃР»РµРґРЅРёР№ С‡Р°СЃ")
 	TrayItemSetOnEvent(-1, "_MainShowPingHour_Table")
-	Local $ShowPingDay_Table = TrayCreateItem("Показать данные за песледний день")
+	Local $ShowPingDay_Table = TrayCreateItem("РџРѕРєР°Р·Р°С‚СЊ РґР°РЅРЅС‹Рµ Р·Р° РїРµСЃР»РµРґРЅРёР№ РґРµРЅСЊ")
 	TrayItemSetOnEvent(-1, "_MainShowPingDay_Table")
 	TrayCreateItem("")
-	Local $ExitItem = TrayCreateItem("Выйти")
+	Local $ExitItem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -19)
@@ -89,7 +89,7 @@ Func _MainShowPingDay_Table()
     If $iRval = $SQLITE_OK Or $iRval = 101 Then
 		_Show_Table(_SQLite_Display2DResult($aResult, 0, True))
     Else
-        MsgBox(16, "SQLite Ошибка: " & $iRval, _SQLite_ErrMsg ())
+        MsgBox(16, "SQLite РћС€РёР±РєР°: " & $iRval, _SQLite_ErrMsg ())
     EndIf
 EndFunc
 
@@ -100,7 +100,7 @@ Func _MainShowPingHour_Table()
     If $iRval = $SQLITE_OK Or $iRval = 101 Then
 		_Show_Table(_SQLite_Display2DResult($aResult, 0, True))
     Else
-        MsgBox(16, "SQLite Ошибка: " & $iRval, _SQLite_ErrMsg ())
+        MsgBox(16, "SQLite РћС€РёР±РєР°: " & $iRval, _SQLite_ErrMsg ())
     EndIf
 
 EndFunc
@@ -110,10 +110,10 @@ Func _Show_Table($sResult)
 
 	Local $hFileOpen = FileOpen($sFilePath, $FO_APPEND)
 	If $hFileOpen = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия временного файла")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С„Р°Р№Р»Р°")
 		;Return False
 	EndIf
-	FileWrite($hFileOpen, "Дата генерации данных: " & @MDAY & '.' & @MON & '.' & @YEAR & "." & @CRLF & @CRLF)
+	FileWrite($hFileOpen, "Р”Р°С‚Р° РіРµРЅРµСЂР°С†РёРё РґР°РЅРЅС‹С…: " & @MDAY & '.' & @MON & '.' & @YEAR & "." & @CRLF & @CRLF)
 	FileWrite($hFileOpen, $sResult)
 	FileClose($hFileOpen)
 
@@ -129,18 +129,18 @@ Func _OpenDB()
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "_OpenDB(): $sDLLFile = " & $sDLLFile)
 	_SQLite_Startup ($sDLLFile, False, 1)
     If @error > 0 Then
-        MsgBox(16, "SQLite Ошибка", "DLL Не может быть загружен!")
+        MsgBox(16, "SQLite РћС€РёР±РєР°", "DLL РќРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ!")
         Exit - 1
     EndIf
     If NOT FileExists($sSQLFile) Then
         $dbn=_SQLite_Open($sSQLFile)
         If @error > 0 Then
-            MsgBox(16, "SQLite Ошибка", "Не возможно открыть базу!")
+            MsgBox(16, "SQLite РћС€РёР±РєР°", "РќРµ РІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ Р±Р°Р·Сѓ!")
             Exit - 1
         EndIf
         ;If Not _SQLite_Exec ($dbn, "CREATE TABLE tblPing (_id integer PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT CURRENT_TIMESTAMP, Server, Ping integer);") = $SQLITE_OK Then _
         If Not _SQLite_Exec ($dbn, "CREATE TABLE tblPing (_id integer PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT (datetime('now','localtime')) unique, Server, Ping integer);") = $SQLITE_OK Then _
-            MsgBox(16, "SQLite Ошибка", _SQLite_ErrMsg ())
+            MsgBox(16, "SQLite РћС€РёР±РєР°", _SQLite_ErrMsg ())
     Else
         $dbn=_SQLite_Open($sSQLFile)
     EndIf
@@ -164,15 +164,15 @@ EndFunc
 
 Func _AddRecordDB($sServer, $iPing)
 	If Not _SQLite_Exec ($dbn, "INSERT INTO tblPing(Server, Ping) VALUES ('" & StringUpper($sServer) & "','" & $iPing & "');") = $SQLITE_OK Then _
-            MsgBox(16, "SQLite Ошибка", _SQLite_ErrMsg ())
+            MsgBox(16, "SQLite РћС€РёР±РєР°", _SQLite_ErrMsg ())
 EndFunc
 
 Func _MainProcess()
 	Local $iPing = Ping($sServer, 1000)
 	If $iPing Then
-		_AddRecordDB($sServer, $iPing); Добавить запись
+		_AddRecordDB($sServer, $iPing); Р”РѕР±Р°РІРёС‚СЊ Р·Р°РїРёСЃСЊ
 	Else
-		_AddRecordDB($sServer, -1); Добавить запись
+		_AddRecordDB($sServer, -1); Р”РѕР±Р°РІРёС‚СЊ Р·Р°РїРёСЃСЊ
 	EndIf
 
 EndFunc
