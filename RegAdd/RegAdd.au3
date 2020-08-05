@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -16,29 +16,29 @@ Global $tTimer, $tSleep
 Global $aExceptionUserName
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
 Func MainInit()
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	$tTimer = TimerInit()
 	$tSleep = 0
 	; /
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
-	TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
+	TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -49,7 +49,7 @@ Func MainInit()
 	EndIf
 
 	;TrayMenu
-	Local $exititem = TrayCreateItem("Выйти")
+	Local $exititem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -21)
@@ -59,16 +59,16 @@ EndFunc
 
 Func MainLoop()
 	_FileWriteLog($hLogFile, "MainLoop()")
-	; Создаёт раздел
+	; РЎРѕР·РґР°С‘С‚ СЂР°Р·РґРµР»
 	$result = RegWrite("HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX")
 	If $result = 0 Then
-		_FileWriteLog($hLogFile, "MainLoop(): Ошибка: " & @ScriptDir & " (HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX)")
+		_FileWriteLog($hLogFile, "MainLoop(): РћС€РёР±РєР°: " & @ScriptDir & " (HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX)")
 	EndIf
 
-	; Создаёт параметр с целым числом
+	; РЎРѕР·РґР°С‘С‚ РїР°СЂР°РјРµС‚СЂ СЃ С†РµР»С‹Рј С‡РёСЃР»РѕРј
 	$result = RegWrite("HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX\XXXXXXXXXXX", "XXXXXXX", "REG_DWORD", 0)
 	If $result = 0 Then
-		_FileWriteLog($hLogFile, "MainLoop(): Ошибка: " & @ScriptDir & " (HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX\XXXXXXXXXXX, XXXXXXX:0)")
+		_FileWriteLog($hLogFile, "MainLoop(): РћС€РёР±РєР°: " & @ScriptDir & " (HKEY_LOCAL_MACHINE\XXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXX\XXXXXXXXXXXXXXXXX\XXXXXXXX\XXXXXXX\XXXXXXXXXXX, XXXXXXX:0)")
 	EndIf
 EndFunc
 
