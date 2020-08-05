@@ -3,7 +3,7 @@
 Набор скриптов помогающий избавится от рутины.<br>
 Скрипты написаны на языке [AutoIt](https://www.autoitscript.com).<br>
 <br>
-	PreAutoRun.au3 - подготовкf с запуск скрипта AutoRun.au3<br>
+	PreAutoRun.au3 - подготовка с запуск скрипта AutoRun.au3<br>
 	<br>
 	AutoRun.au3 - мониторинг файла AutoRun.cron и последующий запуск команд<br>
 	AutoRun.cron - файл с правилами для запуска скриптов<br>
