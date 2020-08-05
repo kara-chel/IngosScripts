@@ -3,4 +3,4 @@
  - include<br>
  - autoit.exe<br>
 <br>
-AutoIt можно скачать по ссылке [AutoIt Downloads](https://www.autoitscript.com/site/autoit/downloads/).<br>
+AutoIt можно скачать по ссылке https://www.autoitscript.com/site/autoit/downloads/.<br>
