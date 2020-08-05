@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -20,8 +20,8 @@ Global $bReboot = True
 Func MainExit()
 	If $DEBUGMODE Then ConsoleWrite("*** MainExit(): begin" & @CRLF)
 
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 
 	If $DEBUGMODE Then ConsoleWrite("*** MainExit(): end" & @CRLF)
 	Exit
@@ -30,13 +30,13 @@ EndFunc
 Func MainInit()
 	If $DEBUGMODE Then ConsoleWrite("***************************************" & @CRLF)
 	If $DEBUGMODE Then ConsoleWrite("*** MainInit(): begin" & @CRLF)
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	;$tTimerInit = TimerInit()
 	$tTimer = int(TimerDiff(0))
 	$tSleep = 0
@@ -46,11 +46,11 @@ Func MainInit()
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
 		If $DEBUGMODE Then ConsoleWrite("*** MainInit(): ErrorOpenFile: " & $sLogFile & @CRLF)
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "MainInit(): Ошибка открытия LOG-файла")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "MainInit(): РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°")
 	Else
-		_FileWriteLog($hLogFile, "Скрипт запущен")
+		_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
 	EndIf
-	TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUGMODE Then ConsoleWrite("*** MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -64,7 +64,7 @@ Func MainInit()
 	EndIf
 
 	;TrayMenu
-	Local $exititem = TrayCreateItem("Выйти")
+	Local $exititem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -21)
@@ -76,7 +76,7 @@ EndFunc
 Func MainLoop()
 	If $DEBUGMODE Then ConsoleWrite("*** MainLoop(): begin" & @CRLF)
 
-	Local $t = 24 * 60 * 60 * 1000 ; 24 часа в миллисекундах
+	Local $t = 24 * 60 * 60 * 1000 ; 24 С‡Р°СЃР° РІ РјРёР»Р»РёСЃРµРєСѓРЅРґР°С…
 
 	;$aTicks = DllCall("kernel32.dll", "dword", "GetTickCount")
 
@@ -92,7 +92,7 @@ Func MainLoop()
 		if $bReboot Then
 		   If $DEBUGMODE Then ConsoleWrite("*** MainLoop(): UpTime: Run('shutdown.exe')" & @CRLF)
 		   _FileWriteLog($hLogFile, "MainLoop(): UpTime: Run('shutdown.exe')")
-		   $pid = Run('shutdown -r -f -t 3600 -c "Плановая перезагрузка.' & @CRLF & 'Сохраните все документы,'  & @CRLF & 'через 5 минут ваш компьютер будет перезагружен!"', '', @SW_HIDE, 0x2)
+		   $pid = Run('shutdown -r -f -t 3600 -c "РџР»Р°РЅРѕРІР°СЏ РїРµСЂРµР·Р°РіСЂСѓР·РєР°.' & @CRLF & 'РЎРѕС…СЂР°РЅРёС‚Рµ РІСЃРµ РґРѕРєСѓРјРµРЅС‚С‹,'  & @CRLF & 'С‡РµСЂРµР· 5 РјРёРЅСѓС‚ РІР°С€ РєРѕРјРїСЊСЋС‚РµСЂ Р±СѓРґРµС‚ РїРµСЂРµР·Р°РіСЂСѓР¶РµРЅ!"', '', @SW_HIDE, 0x2)
 		Else
    		   If $DEBUGMODE Then ConsoleWrite("*** MainLoop(): UpTime: Run('shutdown.exe'): Exception" & @CRLF)
 		   _FileWriteLog($hLogFile, "MainLoop(): UpTime: Run('shutdown.exe'): Exception")
