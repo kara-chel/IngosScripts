@@ -1,5 +1,5 @@
-;TODO "If $iFileExists Then" заменить на цикл с паузой пока не появится файл!
-Opt("TrayIconHide", 1)          ;0 - отображать, 1 - скрыть
+;TODO "If $iFileExists Then" Р·Р°РјРµРЅРёС‚СЊ РЅР° С†РёРєР» СЃ РїР°СѓР·РѕР№ РїРѕРєР° РЅРµ РїРѕСЏРІРёС‚СЃСЏ С„Р°Р№Р»!
+Opt("TrayIconHide", 1)          ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -11,7 +11,7 @@ Const $cVersion = "PreAutoRunIngos20200625"
 Const $cProduct = "PreAutoRun"
 
 Func MainInit()
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
@@ -29,35 +29,36 @@ Func MainExit()
 EndFunc
 
 Func _Install()
-	;;Ждем появления ресурса
+	;;Р–РґРµРј РїРѕСЏРІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°
 	;Local $sFilePath = '\\XXX.XXX.XXX.XXX\XXX\PATHXXX\autoit\AutoIt3.exe'
 	;While NOT FileExists($sFilePath)
 	;	Sleep(500)
 	;WEnd
-	;;Копируем autoit на локальный диск
+	;;РљРѕРїРёСЂСѓРµРј autoit РЅР° Р»РѕРєР°Р»СЊРЅС‹Р№ РґРёСЃРє
 	;Local $sParam = '"\\XXX.XXX.XXX.XXX\XXX\PATHXXX\autoit\*.*" "C:\Users\' & @UserName & '\AppData\Local\Programs\AutoIt\" /E /H /F /R /Y /D /V /C /G'
 	;$iReturn = ShellExecuteWait("xcopy.exe", $sParam, "", "",@SW_HIDE)
 	;Sleep(500)
-	;Скрываем папку чтоб не мозолила глаза пользователю
-	FileSetAttrib ( "C:\.XXXXXX", "+SH" )
+	
+	;РЎРєСЂС‹РІР°РµРј РїР°РїРєСѓ С‡С‚РѕР± РЅРµ РјРѕР·РѕР»РёР»Р° РіР»Р°Р·Р° РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ
+	FileSetAttrib ( "C:\.autoit", "+SH" )
 EndFunc
 
 Func _Process()
 	Sleep(7000)
 
-	; Прописываем ассоциации
+	; РџСЂРѕРїРёСЃС‹РІР°РµРј Р°СЃСЃРѕС†РёР°С†РёРё
 	RegWrite("HKCU\Software\Classes\.au3","","REG_SZ",'AutoIt3Script')
 	RegWrite("HKCU\Software\Classes\AutoIt3Script","","REG_SZ",'AutoIt v3 Script')
 	RegWrite("HKCU\Software\Classes\AutoIt3Script\Shell\Open","","REG_SZ",'Compile Script')
-	RegWrite("HKCU\Software\Classes\AutoIt3Script\Shell\Open\Command","","REG_SZ",'"C:\.XXXXXX\AutoIt3.exe" "%1"')
+	RegWrite("HKCU\Software\Classes\AutoIt3Script\Shell\Open\Command","","REG_SZ",'"C:\.autoit\AutoIt3.exe" "%1"')
 
 	Local $sFilePath = '\\XXX.XXX.XXX.XXX\XXX\PATHXXX\AutoRun.au3'
 
-	;Ждем появления ресурса
+	;Р–РґРµРј РїРѕСЏРІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°
 	While NOT FileExists($sFilePath)
 		Sleep(500)
 	WEnd
-	;Запускаем
+	;Р—Р°РїСѓСЃРєР°РµРј
 	If FileExists($sFilePath) Then
 		ShellExecute($sFilePath)
 	EndIf
