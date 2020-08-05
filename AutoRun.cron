@@ -1,0 +1,15 @@
+;@IP or * or @UserName|@DATE or * or @WDAY or 08.03.*|TIME(23:59) or *:@MIN or STARTUP or *|SCRIPT-file
+;Вместо WDAY можно указать числовой день недели. Диапазон составляет от 0 до 6, что соответствует воскресенья=0 по субботу=6.
+
+;*|*|startup|Congratulate.starter.au3|error ;строка с ошибкой, т.к. должно быть 4 параметра
+;xxx.xxx.xxx.xxx|09.03.2016|19:10|Congratulate.starter.au3 ;запустить на компьютере xxx.xxx.xxx.xxx, только 09.03.2016, только в 19:10
+;USERNAME|3|startup|Congratulate.starter.au3 ;запустить у пользователя USERNAME, только в среду, только при запуске
+
+;Разное
+*|*|startup|map.au3
+;*|*|startup|unmap.au3
+;*|*|startup|Bginfo.au3
+*|*|startup|MenuIngos.starter.au3
+*|06.03.2019|startup|Congratulate.starter.au3
+*|06.03.2020|startup|Congratulate.starter.au3
+*|*|22:15|UpTime.starter.au3
