@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3) ; The default tray menu items will not be shown and items are not checked when selected. These are options 1 and 2 for TrayMenuMode.
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
@@ -26,12 +26,12 @@ Global $tTimer, $tSleep = 0
 Global $oIE
 Global $retarr, $dbn
 Global $DEBUGMODE = True
-Global $iShowLimit; Показать $iShowLimit последних записей
+Global $iShowLimit; РџРѕРєР°Р·Р°С‚СЊ $iShowLimit РїРѕСЃР»РµРґРЅРёС… Р·Р°РїРёСЃРµР№
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	_CloseDB(); Закрытие ДБ
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	_CloseDB(); Р—Р°РєСЂС‹С‚РёРµ Р”Р‘
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
@@ -45,10 +45,10 @@ Func _MainShowTender()
 
 		Local $hFileOpen = FileOpen($sFilePath, $FO_APPEND)
 		If $hFileOpen = -1 Then
-			MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия временного файла")
+			MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С„Р°Р№Р»Р°")
 			;Return False
 		EndIf
-		FileWrite($hFileOpen, "База найденых тендеров на rts-tender.ru от " & @MDAY & '.' & @MON & '.' & @YEAR & "." & @CRLF & @CRLF)
+		FileWrite($hFileOpen, "Р‘Р°Р·Р° РЅР°Р№РґРµРЅС‹С… С‚РµРЅРґРµСЂРѕРІ РЅР° rts-tender.ru РѕС‚ " & @MDAY & '.' & @MON & '.' & @YEAR & "." & @CRLF & @CRLF)
 		FileWrite($hFileOpen, $sResult)
 		FileClose($hFileOpen)
 
@@ -58,7 +58,7 @@ Func _MainShowTender()
 
 		FileDelete($sFilePath)
     Else
-        MsgBox(16, "SQLite Ошибка: " & $iRval, _SQLite_ErrMsg ())
+        MsgBox(16, "SQLite РћС€РёР±РєР°: " & $iRval, _SQLite_ErrMsg ())
     EndIf
 
 EndFunc
@@ -70,23 +70,23 @@ EndFunc
 
 Func MainInit()
 
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	$tTimer = TimerInit()
 	$tSleep = 0
 	; /
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла.")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°.")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
-	;TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
+	;TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -110,15 +110,15 @@ Func MainInit()
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): $iMin = " & $iMin)
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): $iMax = " & $iMax)
 
-	_OpenDB(); Открытие/создание ДБ
+	_OpenDB(); РћС‚РєСЂС‹С‚РёРµ/СЃРѕР·РґР°РЅРёРµ Р”Р‘
 
 	;TrayMenu
-	Local $ExecItem = TrayCreateItem("Принудительно запустить скрипт")
+	Local $ExecItem = TrayCreateItem("РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ Р·Р°РїСѓСЃС‚РёС‚СЊ СЃРєСЂРёРїС‚")
 	TrayItemSetOnEvent(-1, "_MainExec")
-	Local $ShowDBItem = TrayCreateItem("Показать тендеры")
+	Local $ShowDBItem = TrayCreateItem("РџРѕРєР°Р·Р°С‚СЊ С‚РµРЅРґРµСЂС‹")
 	TrayItemSetOnEvent(-1, "_MainShowTender")
 	TrayCreateItem("")
-	Local $ExitItem = TrayCreateItem("Выйти")
+	Local $ExitItem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -14)
@@ -131,17 +131,17 @@ Func _OpenDB()
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "_OpenDB(): $sDLLFile = " & $sDLLFile)
 	_SQLite_Startup ($sDLLFile, False, 1)
     If @error > 0 Then
-        MsgBox(16, "SQLite Ошибка", "DLL Не может быть загружен!")
+        MsgBox(16, "SQLite РћС€РёР±РєР°", "DLL РќРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ!")
         Exit - 1
     EndIf
     If NOT FileExists($sSQLFile) Then
         $dbn=_SQLite_Open($sSQLFile)
         If @error > 0 Then
-            MsgBox(16, "SQLite Ошибка", "Не возможно открыть базу!")
+            MsgBox(16, "SQLite РћС€РёР±РєР°", "РќРµ РІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ Р±Р°Р·Сѓ!")
             Exit - 1
         EndIf
         If Not _SQLite_Exec ($dbn, "CREATE TABLE tblTender (_id integer PRIMARY KEY AUTOINCREMENT, UserName, Title, URL, Date, Time);") = $SQLITE_OK Then _
-            MsgBox(16, "SQLite Ошибка", _SQLite_ErrMsg ())
+            MsgBox(16, "SQLite РћС€РёР±РєР°", _SQLite_ErrMsg ())
     Else
         $dbn=_SQLite_Open($sSQLFile)
     EndIf
@@ -174,7 +174,7 @@ Func _MainProcess()
 		ShellExecute(@ScriptDir & "\rts-tender.ru.ext.exe")
 	EndIf
 	$iNext = Int(Random($iMin, $iMax))
-	;TrayTip($cProduct, "Сайт проверен, следующая проверка через " & $iNext & " секунд", 3, 1)
+	;TrayTip($cProduct, "РЎР°Р№С‚ РїСЂРѕРІРµСЂРµРЅ, СЃР»РµРґСѓСЋС‰Р°СЏ РїСЂРѕРІРµСЂРєР° С‡РµСЂРµР· " & $iNext & " СЃРµРєСѓРЅРґ", 3, 1)
 EndFunc
 
 ;Main
