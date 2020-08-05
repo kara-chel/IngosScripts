@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -8,7 +8,7 @@ Opt("TrayOnEventMode", 1)
 Const $cVersion = "ShutdownIngos20160406"
 Const $cProduct = "Shutdown"
 Const $DEBUBMODE = False
-Const $cSec = 60; Повторять _MainProcess() каждые $cSec секунд
+Const $cSec = 60; РџРѕРІС‚РѕСЂСЏС‚СЊ _MainProcess() РєР°Р¶РґС‹Рµ $cSec СЃРµРєСѓРЅРґ
 
 Global $hLogFile
 Global $sLOGFile = @ScriptDir & "\..\Log\" & $cProduct & "\[" & @UserName & "].[" & @ComputerName & "].[" & @IPAddress1 & "].log"
@@ -17,29 +17,29 @@ Global $tTimer, $tSleep
 Global $aExceptionUserName
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
 Func MainInit()
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
 	GUISetState(@SW_HIDE)
 	; /
 
-	; Таймер
+	; РўР°Р№РјРµСЂ
 	$tTimer = TimerInit()
 	$tSleep = 0
 	; /
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
-	TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
+	TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -47,7 +47,7 @@ Func MainInit()
 	If _ArraySearch($aExceptionUserName, StringUpper(@UserName)) >= 0 Then MainExit()
 
 	;TrayMenu
-	Local $exititem = TrayCreateItem("Выйти")
+	Local $exititem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -21)
