@@ -1,6 +1,4 @@
-; +TODO Общий SQL
-; +TODO Общий INI
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 
 #include <SQLite.au3>
 #include <SQLite.dll.au3>
@@ -29,19 +27,19 @@ Global $DEBUGMODE = True
 Global $iIEVisible
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	_CloseDB(); Закрытие ДБ
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	_CloseDB(); Р—Р°РєСЂС‹С‚РёРµ Р”Р‘
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
 Func MainInit()
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then
-		_FileWriteLog($hLogFile, "MainInit(): Скрипт уже запущен, выход. ")
-		FileClose($hLogFile); Закрываем LOG-файл
+		_FileWriteLog($hLogFile, "MainInit(): РЎРєСЂРёРїС‚ СѓР¶Рµ Р·Р°РїСѓС‰РµРЅ, РІС‹С…РѕРґ. ")
+		FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 		Exit
 	EndIf
 	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
@@ -51,8 +49,8 @@ Func MainInit()
 	If $hLogFile = -1 Then
 		MsgBox($MB_SYSTEMMODAL, "", "An error occurred when openning the file.")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
-	;TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
+	;TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -92,7 +90,7 @@ Func MainInit()
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): $sHost = " & $sHost)
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "MainInit(): $iAttach = " & $iAttach)
 
-	_OpenDB(); Открытие/создание ДБ
+	_OpenDB(); РћС‚РєСЂС‹С‚РёРµ/СЃРѕР·РґР°РЅРёРµ Р”Р‘
 
 EndFunc
 
@@ -101,17 +99,17 @@ Func _OpenDB()
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "_OpenDB(): $sDLLFile = " & $sDLLFile)
 	_SQLite_Startup ($sDLLFile, False, 1)
     If @error > 0 Then
-        MsgBox(16, "SQLite Ошибка", "DLL Не может быть загружен!")
+        MsgBox(16, "SQLite РћС€РёР±РєР°", "DLL РќРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ!")
         Exit - 1
     EndIf
     If NOT FileExists($sSQLFile) Then
         $dbn=_SQLite_Open($sSQLFile)
         If @error > 0 Then
-            MsgBox(16, "SQLite Ошибка", "Не возможно открыть базу!")
+            MsgBox(16, "SQLite РћС€РёР±РєР°", "РќРµ РІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ Р±Р°Р·Сѓ!")
             Exit - 1
         EndIf
         If Not _SQLite_Exec ($dbn, "CREATE TABLE tblTender (_id integer PRIMARY KEY AUTOINCREMENT, UserName, Title, URL, Date, Time);") = $SQLITE_OK Then _
-            MsgBox(16, "SQLite Ошибка", _SQLite_ErrMsg ())
+            MsgBox(16, "SQLite РћС€РёР±РєР°", _SQLite_ErrMsg ())
     Else
         $dbn=_SQLite_Open($sSQLFile)
     EndIf
@@ -146,7 +144,7 @@ EndFunc
 Func _AddRecordDB($sTitle, $sURL, $sDate = @MDAY & '.' & @MON & '.' & @YEAR, $sTime = @HOUR & ':' & @MIN & ':' & @SEC)
 	If Not _SQLite_Exec ($dbn, "INSERT INTO tblTender(UserName, Title, URL, Date, Time) VALUES ('" & StringUpper(@UserName) & "','" & $sTitle & "','" & _
 	 $sURL & "','" & $sDate & "','" & $sTime & "');") = $SQLITE_OK Then _
-            MsgBox(16, "SQLite Ошибка", _SQLite_ErrMsg ())
+            MsgBox(16, "SQLite РћС€РёР±РєР°", _SQLite_ErrMsg ())
 EndFunc
 
 Func _MainProcess()
@@ -157,7 +155,7 @@ Func _MainProcess()
 	Local $sTitle, $sURL
 	Local $oIETender
 
-	; Делаем ссылку уникальной добавляем вымышленный параметр orderPriceCurrencyKey
+	; Р”РµР»Р°РµРј СЃСЃС‹Р»РєСѓ СѓРЅРёРєР°Р»СЊРЅРѕР№ РґРѕР±Р°РІР»СЏРµРј РІС‹РјС‹С€Р»РµРЅРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ orderPriceCurrencyKey
 	$sSuffix = "&orderPriceCurrencyKey=" & md5(@UserName & @YEAR & @MON & @MDAY & @HOUR & @MIN & @SEC)
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): URL -  " & $sZURL & $sSuffix)
 
@@ -174,16 +172,16 @@ Func _MainProcess()
 				;Local $oAs = $oTD.document.GetElementsByTagName("a")
 				If Not @error Then
 					For $oA in $oAs
-						; проверить есть ли запись в базе
-						; если есть то ничего не делать
-						; если нет, то открыть окно IE и добавить запись
+						; РїСЂРѕРІРµСЂРёС‚СЊ РµСЃС‚СЊ Р»Рё Р·Р°РїРёСЃСЊ РІ Р±Р°Р·Рµ
+						; РµСЃР»Рё РµСЃС‚СЊ С‚Рѕ РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°С‚СЊ
+						; РµСЃР»Рё РЅРµС‚, С‚Рѕ РѕС‚РєСЂС‹С‚СЊ РѕРєРЅРѕ IE Рё РґРѕР±Р°РІРёС‚СЊ Р·Р°РїРёСЃСЊ
 						$sTitle = StringStripWS($oA.innertext, 1 + 2 + 4 + 8)
 						$sURL = ChckUrl($oA.getAttributeNode('href').nodeValue)
 						If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): $sTitle = " & $sTitle)
 						If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): $sURL = " & $sURL)
 						If Not _CheckRecordDB($sTitle, $sURL) Then
-							_FileWriteLog($hLogFile, "Новый тендер: " & $sTitle & " - " & $sURL)
-							_AddRecordDB($sTitle, $sURL); Добавить запись
+							_FileWriteLog($hLogFile, "РќРѕРІС‹Р№ С‚РµРЅРґРµСЂ: " & $sTitle & " - " & $sURL)
+							_AddRecordDB($sTitle, $sURL); Р”РѕР±Р°РІРёС‚СЊ Р·Р°РїРёСЃСЊ
 							if $iAttach Then
 								Local $i = 1, $oIETmp, $bNew = True
 								While 1
@@ -207,14 +205,14 @@ Func _MainProcess()
 								WEnd
 								If $bNew Then
 									If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): $bNew=" & "True")
-									$oIETender = _IECreate($sURL, 0, 1, 0) ;открыть окно с тендером
+									$oIETender = _IECreate($sURL, 0, 1, 0) ;РѕС‚РєСЂС‹С‚СЊ РѕРєРЅРѕ СЃ С‚РµРЅРґРµСЂРѕРј
 									Sleep(1000)
 								Else
 									If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): $bNew=" & "False")
 									__IENavigate($oIETmp, $sURL, 0, 0x800)
 								EndIf
 							Else
-								$oIETender = _IECreate($sURL, 0, 1, 0) ;открыть окно с тендером
+								$oIETender = _IECreate($sURL, 0, 1, 0) ;РѕС‚РєСЂС‹С‚СЊ РѕРєРЅРѕ СЃ С‚РµРЅРґРµСЂРѕРј
 							EndIf
 							Sleep(100)
 						EndIf
@@ -224,7 +222,7 @@ Func _MainProcess()
 			EndIf
 		Next
 	EndIf
-	_IEQuit($oIE); Закрываем IE
+	_IEQuit($oIE); Р—Р°РєСЂС‹РІР°РµРј IE
 	If $DEBUGMODE Then _FileWriteLog($hLogFile, "_MainProcess(): End")
 EndFunc
 
