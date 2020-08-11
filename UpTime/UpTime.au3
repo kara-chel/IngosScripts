@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 1) ;0 - отображать, 1 - скрыть
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -8,6 +8,7 @@ Opt("TrayOnEventMode", 1)
 Const $cVersion = "UpTimeIngos20191114"
 Const $cProduct = "UpTime"
 Const $DEBUGMODE = False
+;Const $cSec = 60; Повторять _MainProcess() каждые $cSec секунд
 
 Global $hLogFile
 ;Global $sLOGFile = @ScriptDir & "\Log\" & $cProduct & "\[" & @UserName & "].[" & @ComputerName & "].[" & @IPAddress1 & "].log"
@@ -32,8 +33,9 @@ Func MainInit()
 	If $DEBUGMODE Then ConsoleWrite("*** MainInit(): begin" & @CRLF)
 	; Проверка на повторный запуск скрипта
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	; Таймер
@@ -99,8 +101,28 @@ Func MainLoop()
 		EndIf
 	EndIf
 
+;	While 1
+;		if TimerDiff($tTimer) < $tSleep Then
+;			sleep(100)
+;		Else
+;			_MainProcess()
+;			$tSleep = TimerDiff($tTimer) + $cSec * 1000
+;		EndIf
+;	WEnd
+
 If $DEBUGMODE Then ConsoleWrite("*** MainLoop(): end" & @CRLF)
 EndFunc
+
+;Func _MainProcess()
+;	If $DEBUGMODE Then ConsoleWrite("*** _MainProcess(): begin" & @CRLF)
+;
+;	_FileWriteLog($hLogFile, "_MainProcess(): Shutdown")
+;	Sleep(500)
+;	;Shutdown(300)
+;
+;	If $DEBUGMODE Then ConsoleWrite("*** _MainProcess(): end" & @CRLF)
+;EndFunc
+
 
 ;Main
 MainInit()

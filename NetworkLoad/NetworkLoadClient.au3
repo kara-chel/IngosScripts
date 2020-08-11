@@ -12,7 +12,6 @@ Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
 #include <SQLite.dll.au3>
 #include <File.au3>
 #Include <Math.au3>
-#include <SendMessage.au3>
 
 Const $cVersion = "NetworkLoadClientIngos20160712"
 Const $cProduct = "NetworkLoadClient"
@@ -40,8 +39,9 @@ Func MainInit()
 
 	; Проверка на повторный запуск скрипта
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	; Таймер

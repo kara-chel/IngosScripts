@@ -25,8 +25,9 @@ EndFunc
 Func MainInit()
 	; Проверка на повторный запуск скрипта
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	; Таймер
@@ -61,9 +62,9 @@ EndFunc
 
 Func _MainProcess()
 
-	For $i = 1 to 255 Step 1
+	For $i = 10 to 253 Step 1
 
-		Local $sHost = "XXX.XXX.XXX." & $i
+		Local $sHost = "172.16.1." & $i
 		Local $sPath = "\\" & $sHost & "\C$\Users\Agent"
 		Local $sFilesSrc = "\\172.16.1.2\Doc\Scripts\Install\*.*"
 		Local $sFilesDest = "\\" & $sHost & "\C$\*.*"

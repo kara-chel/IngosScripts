@@ -11,7 +11,8 @@ Opt("TrayOnEventMode", 1) ; Enable TrayOnEventMode.
 #include <File.au3>
 ;#Include <Math.au3>
 
-Const $cVersion = "MenuIngos20200710"
+Const $cVersion = "MenuIngos20200810"
+Const $cOldVersion = "MenuIngos20200710"
 Const $cProduct = "MenuIngos"
 Const $DEBUBMODE = False
 Const $cStep = 100
@@ -38,11 +39,16 @@ EndFunc
 
 
 Func MainInit()
+	; Закрываем старую версию
+	If WinExists($cVersion) Then
+		WinClose($cOldVersion)
+		;WinKill($cOldVersion)
 
 	; Проверка на повторный запуск скрипта
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	; Таймер
@@ -78,7 +84,7 @@ Func MainInit()
 	TrayItemSetOnEvent(-1, "_Menu3")
 
 	TrayCreateItem("Перезагрузка компьютера")
-	TrayItemSetOnEvent(-1, "_Menu3")
+	TrayItemSetOnEvent(-1, "_Menu4")
 
 	TrayCreateItem("")
 	Local $ExitItem = TrayCreateItem("Выйти")

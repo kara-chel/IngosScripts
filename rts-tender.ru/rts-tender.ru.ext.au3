@@ -1,3 +1,5 @@
+; +TODO Общий SQL
+; +TODO Общий INI
 Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
 
 #include <SQLite.au3>
@@ -42,8 +44,9 @@ Func MainInit()
 		FileClose($hLogFile); Закрываем LOG-файл
 		Exit
 	EndIf
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	If $hLogFile = -1 Then

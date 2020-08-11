@@ -1,3 +1,3 @@
-Opt("TrayIconHide", 1)          ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 1)          ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 
 ShellExecute(@ScriptDir & "\..\FindMP3\FindMP3.au3")

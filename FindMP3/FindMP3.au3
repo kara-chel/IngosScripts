@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 0) ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 0) ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 Opt("TrayMenuMode", 3)
 Opt("TrayAutoPause", 0)
 Opt("TrayOnEventMode", 1)
@@ -16,25 +16,26 @@ Global $sLOGFile = @ScriptDir & "\..\Log\" & $cProduct & "\[" & @UserName & "].[
 Global $aExceptionUserName
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	FileClose($hLogFile); Закрываем LOG-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOG-С„Р°Р№Р»
 	Exit
 EndFunc
 
 Func MainInit()
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit()")
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
-	TrayTip($cProduct, "Скрипт запущен", 3, 1)
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
+	TrayTip($cProduct, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ", 3, 1)
 
 	If $DEBUBMODE Then _FileWriteLog($hLogFile, "MainInit(): @ScriptDir = " & @ScriptDir)
 
@@ -42,7 +43,7 @@ Func MainInit()
 	If _ArraySearch($aExceptionUserName, StringUpper(@UserName)) >= 0 Then MainExit()
 
 	;TrayMenu
-	Local $exititem = TrayCreateItem("Выйти")
+	Local $exititem = TrayCreateItem("Р’С‹Р№С‚Рё")
 	TrayItemSetOnEvent(-1, "MainExit")
 	TraySetState()
 	TraySetIcon("Shell32.dll", -23)
@@ -63,9 +64,9 @@ Func _MainProcess()
 	$FileList = _FO_FileSearch("C:\", "*.mp3", True, 255)
 	For $File In $FileList
 		$File = StringStripWS($File, $STR_STRIPALL)
-		 _FileWriteLog($hLogFile, "_MainProcess(): Найден: " & $File)
+		 _FileWriteLog($hLogFile, "_MainProcess(): РќР°Р№РґРµРЅ: " & $File)
 	Next
-	_FileWriteLog($hLogFile, "_MainProcess(): Всего файлов найдено: " & $FileList[0])
+	_FileWriteLog($hLogFile, "_MainProcess(): Р’СЃРµРіРѕ С„Р°Р№Р»РѕРІ РЅР°Р№РґРµРЅРѕ: " & $FileList[0])
 
 	;Sleep(1500)
 EndFunc

@@ -1,4 +1,4 @@
-Opt("TrayIconHide", 1)          ;0 - отображать, 1 - скрыть
+Opt("TrayIconHide", 1)          ;0 - РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ, 1 - СЃРєСЂС‹С‚СЊ
 
 #include <File.au3>
 
@@ -9,17 +9,18 @@ Global $hLogFile
 Global $sLOGFile = @ScriptDir & "\..\Log\" & $cProduct & "\[" & @UserName & "].[" & @ComputerName & "].[" & @IPAddress1 & "].log"
 
 Func MainInit()
-	; Проверка на повторный запуск скрипта
+	; РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє СЃРєСЂРёРїС‚Р°
 	If WinExists($cVersion) Then Exit
-	$hExist = GUICreate($cVersion, 0, 0, 0, 0)
-	GUISetState(@SW_HIDE)
+	AutoItWinSetTitle($cVersion)
+	;$hExist = GUICreate($cVersion, 0, 0, 0, 0)
+	;GUISetState(@SW_HIDE)
 	; /
 
 	$hLogFile = FileOpen($sLogFile, $FO_APPEND)
 	If $hLogFile = -1 Then
-		MsgBox($MB_SYSTEMMODAL, $cVersion, "Ошибка открытия LOG-файла.")
+		MsgBox($MB_SYSTEMMODAL, $cVersion, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ LOG-С„Р°Р№Р»Р°.")
 	EndIf
-	_FileWriteLog($hLogFile, "Скрипт запущен")
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РїСѓС‰РµРЅ")
 
 	_FileWriteLog($hLogFile, "@LogonDomain: " & @LogonDomain)
 	_FileWriteLog($hLogFile, "@ComputerName: " & @ComputerName)
@@ -32,8 +33,8 @@ Func MainLoop()
 EndFunc
 
 Func MainExit()
-	_FileWriteLog($hLogFile, "Скрипт завершен")
-	FileClose($hLogFile); Закрываем LOF-файл
+	_FileWriteLog($hLogFile, "РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РµРЅ")
+	FileClose($hLogFile); Р—Р°РєСЂС‹РІР°РµРј LOF-С„Р°Р№Р»
 	Exit
 EndFunc
 
